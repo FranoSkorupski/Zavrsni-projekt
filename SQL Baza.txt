@@ -1,0 +1,37 @@
+CREATE TABLE korisnik (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT,
+    email TEXT
+);
+
+CREATE TABLE protivnik (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    naziv TEXT,
+    hp INTEGER,
+    difficulty TEXT
+);
+
+CREATE TABLE karta (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    naziv TEXT,
+    attack INTEGER,
+    cost INTEGER
+);
+
+CREATE TABLE deck (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    naziv TEXT,
+    vlasnik_tip TEXT,
+    korisnik_id INTEGER,
+    protivnik_id INTEGER
+);
+
+CREATE TABLE deck_karta (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    deck_id INTEGER,
+    karta_id INTEGER,
+    kolicina INTEGER,
+
+    FOREIGN KEY(deck_id) REFERENCES deck(id),
+    FOREIGN KEY(karta_id) REFERENCES karta(id)
+);
