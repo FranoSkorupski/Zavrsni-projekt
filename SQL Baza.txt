@@ -35,3 +35,59 @@ CREATE TABLE deck_karta (
     FOREIGN KEY(deck_id) REFERENCES deck(id),
     FOREIGN KEY(karta_id) REFERENCES karta(id)
 );
+
+
+-- ─────────────────────────────────────────
+--  KORISNIK
+-- ─────────────────────────────────────────
+INSERT INTO korisnik (username, email) VALUES
+    ('Ivan', 'ivan@gmail.com');
+
+
+-- ─────────────────────────────────────────
+--  PROTIVNIK
+-- ─────────────────────────────────────────
+INSERT INTO protivnik (naziv, hp, difficulty) VALUES
+    ('Goblin',    20, 'easy'),
+    ('Vitez',     35, 'medium'),
+    ('Zmaj',      50, 'hard');
+
+
+-- ─────────────────────────────────────────
+--  KARTE
+-- ─────────────────────────────────────────
+INSERT INTO karta (naziv, attack, cost) VALUES
+    ('Mač',         5, 1),
+    ('Vatrogasna',  8, 2),
+    ('Munja',      12, 3),
+    ('Udarac',      3, 1),
+    ('Eksplozija', 15, 3),
+    ('Strijela',    6, 2);
+
+
+-- ─────────────────────────────────────────
+--  DECK (jedan za playera, jedan za protivnika)
+-- ─────────────────────────────────────────
+INSERT INTO deck (naziv, vlasnik_tip, korisnik_id, protivnik_id) VALUES
+    ('Player Deck', 'korisnik',  1, NULL),
+    ('Goblin Deck', 'protivnik', NULL, 1);
+
+
+-- ─────────────────────────────────────────
+--  DECK_KARTA (koje karte idu u koji deck)
+-- ─────────────────────────────────────────
+
+-- Player deck (deck_id = 1): po 2 komada svake karte
+INSERT INTO deck_karta (deck_id, karta_id, kolicina) VALUES
+    (1, 1, 2),   -- 2x Mač
+    (1, 2, 2),   -- 2x Vatrogasna
+    (1, 3, 2),   -- 2x Munja
+    (1, 4, 2),   -- 2x Udarac
+    (1, 5, 1),   -- 1x Eksplozija
+    (1, 6, 2);   -- 2x Strijela
+
+-- Goblin deck (deck_id = 2): slabije karte
+INSERT INTO deck_karta (deck_id, karta_id, kolicina) VALUES
+    (2, 1, 3),   -- 3x Mač
+    (2, 4, 3),   -- 3x Udarac
+    (2, 6, 2);   -- 2x Strijela
