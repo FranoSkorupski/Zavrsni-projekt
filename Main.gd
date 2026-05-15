@@ -210,18 +210,38 @@ func load_cards_from_database():
     db.path = "user://game.db"
     db.open_db()
     
-    var result = db.select_rows("karta", "", ["id", "naziv", "attack", "cost"])
+    # Pronađi player deck (vlasnik_tip = 'korisnik', korisnik_id = 1)
+    var deck_result = db.select_rows("deck", "vlasnik_tip = 'korisnik' AND korisnik_id = 1", ["id"])
     
-    for row in result:
-        var card = Card.new()
-        card.id     = row[0]
-        card.naziv  = row[1]
-        card.attack = row[2]
-        card.cost   = row[3]
-        player.deck.append(card)
+    if deck_result.size() == 0:
+        print("Nema decka za playera!")
+        db.close_db()
+        return
+    
+    var deck_id = deck_result[0][0]
+    
+    # Dohvati sve karte iz tog decka s količinama
+    var dk_result = db.select_rows("deck_karta", "deck_id = " + str(deck_id), ["karta_id", "kolicina"])
+    
+    for dk_row in dk_result:
+        var karta_id  = dk_row[0]
+        var kolicina  = dk_row[1]
+        
+        var karta_result = db.select_rows("karta", "id = " + str(karta_id), ["id", "naziv", "attack", "cost"])
+        
+        if karta_result.size() > 0:
+            var row = karta_result[0]
+            # Dodaj kartu onoliko puta kolika je količina
+            for j in range(kolicina):
+                var card = Card.new()
+                card.id     = row[0]
+                card.naziv  = row[1]
+                card.attack = row[2]
+                card.cost   = row[3]
+                player.deck.append(card)
     
     db.close_db()
-    print("Učitano ", player.deck.size(), " karata iz baze.")
+    print("Učitano ", player.deck.size(), " karata iz player decka.")
 
 
 func load_enemy_from_database():
