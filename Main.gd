@@ -189,7 +189,7 @@ func enemy_attack(card: Card):
 
 func check_game_over() -> bool:
     if enemy.hp <= 0:
-        print("\n=== PLAYER POBJEĐUJE! ===")
+        print("\n=== ", player_username, " POBJEĐUJE! ===")
         game_over = true
         waiting_for_input = false
         return true
