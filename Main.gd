@@ -8,6 +8,11 @@ var player_turn = true
 var waiting_for_input = false
 var player_input_received = -1
 
+
+# Podaci korisnika iz baze
+var player_username = "Igrač"
+var player_email = ""
+
 func _ready():
     player = Player.new()
     enemy = Enemy.new()
