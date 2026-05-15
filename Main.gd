@@ -243,6 +243,23 @@ func load_cards_from_database():
     db.close_db()
     print("Učitano ", player.deck.size(), " karata iz player decka.")
 
+func load_player_from_database():
+    var db = SQLite.new()
+    db.path = "user://game.db"
+    db.open_db()
+    
+    # Učitaj prvog korisnika iz baze
+    var result = db.select_rows("korisnik", "", ["id", "username", "email"])
+    
+    if result.size() > 0:
+        var row = result[0]
+        player_username = row[1]
+        player_email    = row[2]
+        print("Korisnik učitan: ", player_username, " (", player_email, ")")
+    else:
+        print("Nema korisnika u bazi, koristim zadano ime.")
+    
+    db.close_db()
 
 func load_enemy_from_database():
     var db = SQLite.new()
