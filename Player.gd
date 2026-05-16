@@ -8,5 +8,7 @@ var hand:Array = []
 
 func draw_card():
 	if deck.size() > 0:
-		var card = deck.pop_front()
+		var random_index = randi() % deck.size()
+		var card = deck[random_index]
+		deck.remove_at(random_index)
 		hand.append(card)
